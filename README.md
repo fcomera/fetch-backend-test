@@ -1,3 +1,41 @@
+# How to run
+
+## Build
+
+In order to build use next line
+
+```sh
+$ docker build --tag fetch:prod --target prod .
+```
+
+In order to build for test 
+
+```sh
+$ docker build --tag fetch:test --target test .
+```
+
+## Test
+
+In order to execute the tests
+
+```sh
+$ docker run --rm fetch:test
+```
+
+## Deploy
+
+In order to execute the tests
+
+```sh
+$ docker run --rm -p 3000:3000 fetch:prod
+```
+
+Go to the browser and you must use this base URL:
+
+```
+http://localhost:3000/api/
+```
+
 # Receipt Processor
 
 Build a webservice that fulfils the documented API. The API is described below. A formal definition is provided 
@@ -70,105 +108,3 @@ These rules collectively define how many points should be awarded to a receipt.
 * If the trimmed length of the item description is a multiple of 3, multiply the price by `0.2` and round up to the nearest integer. The result is the number of points earned.
 * 6 points if the day in the purchase date is odd.
 * 10 points if the time of purchase is after 2:00pm and before 4:00pm.
-
-
-## Examples
-
-```json
-{
-  "retailer": "Target",
-  "purchaseDate": "2022-01-01",
-  "purchaseTime": "13:01",
-  "items": [
-    {
-      "shortDescription": "Mountain Dew 12PK",
-      "price": "6.49"
-    },{
-      "shortDescription": "Emils Cheese Pizza",
-      "price": "12.25"
-    },{
-      "shortDescription": "Knorr Creamy Chicken",
-      "price": "1.26"
-    },{
-      "shortDescription": "Doritos Nacho Cheese",
-      "price": "3.35"
-    },{
-      "shortDescription": "   Klarbrunn 12-PK 12 FL OZ  ",
-      "price": "12.00"
-    }
-  ],
-  "total": "35.35"
-}
-```
-```text
-Total Points: 28
-Breakdown:
-     6 points - retailer name has 6 characters
-    10 points - 4 items (2 pairs @ 5 points each)
-     3 Points - "Emils Cheese Pizza" is 18 characters (a multiple of 3)
-                item price of 12.25 * 0.2 = 2.45, rounded up is 3 points
-     3 Points - "Klarbrunn 12-PK 12 FL OZ" is 24 characters (a multiple of 3)
-                item price of 12.00 * 0.2 = 2.4, rounded up is 3 points
-     6 points - purchase day is odd
-  + ---------
-  = 28 points
-```
-
-----
-
-```json
-{
-  "retailer": "M&M Corner Market",
-  "purchaseDate": "2022-03-20",
-  "purchaseTime": "14:33",
-  "items": [
-    {
-      "shortDescription": "Gatorade",
-      "price": "2.25"
-    },{
-      "shortDescription": "Gatorade",
-      "price": "2.25"
-    },{
-      "shortDescription": "Gatorade",
-      "price": "2.25"
-    },{
-      "shortDescription": "Gatorade",
-      "price": "2.25"
-    }
-  ],
-  "total": "9.00"
-}
-```
-```text
-Total Points: 109
-Breakdown:
-    50 points - total is a round dollar amount
-    25 points - total is a multiple of 0.25
-    14 points - retailer name (M&M Corner Market) has 14 alphanumeric characters
-                note: '&' is not alphanumeric
-    10 points - 2:33pm is between 2:00pm and 4:00pm
-    10 points - 4 items (2 pairs @ 5 points each)
-  + ---------
-  = 109 points
-```
-
----
-
-# FAQ
-
-### How will this exercise be evaluated?
-An engineer will review the code you submit. At a minimum they must be able to run the service and the service must provide the expected results. You
-should provide any necessary documentation within the repository. While your solution does not need to be fully production ready, you are being evaluated so
-put your best foot forward.
-
-### I have questions about the problem statement
-For any requirements not specified via an example, use your best judgment to determine the expected result.
-
-### Can I provide a private repository?
-If at all possible, we prefer a public repository because we do not know which engineer will be evaluating your submission. Providing a public repository
-ensures a speedy review of your submission. If you are still uncomfortable providing a public repository, you can work with your recruiter to provide access to
-the reviewing engineer.
-
-### How long do I have to complete the exercise?
-There is no time limit for the exercise. Out of respect for your time, we designed this exercise with the intent that it should take you a few hours. But, please
-take as much time as you need to complete the work.
